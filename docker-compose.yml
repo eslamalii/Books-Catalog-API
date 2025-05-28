@@ -1,0 +1,39 @@
+services:
+  # MongoDB service
+  mongodb:
+    image: mongo
+    container_name: book-catalog-mongo
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+      MONGO_INITDB_DATABASE: book-catalog
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - book-catalog-network
+
+  # NestJS API service
+  api:
+    build: .
+    container_name: book-catalog-api
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://admin:admin123@mongodb:27017/book-catalog?authSource=admin
+      - PORT=3000
+    depends_on:
+      - mongodb
+    networks:
+      - book-catalog-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  book-catalog-network:
+    driver: bridge
