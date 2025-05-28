@@ -34,7 +34,7 @@ A simple RESTful API built with NestJS for managing a catalog of books with Mong
 1. **Clone the repository**
 
    ```bash
-   git clone <repository-url>
+   git clone git@github.com:eslamalii/Books-Catalog-API.git
    cd book-catalog-api
    ```
 
